@@ -1,16 +1,22 @@
 #!/bin/bash
 
-# === DAILY BUSINESS ENGLISH IDIOM — Claude Code Routine ===
+# === DAILY BUSINESS ENGLISH IDIOM → GOOGLE DRIVE ===
 
-OUTPUT=$(claude -p "
-Sen iş İngilizcesi öğretmenidir. Her gün farklı bir iş dünyası deyimi veya ifadesi seç.
-Bugün için rastgele bir tanesini seç — daha önce kullanılmamış olmasına dikkat et.
+DATE=$(date +"%Y-%m-%d")
+DAYNAME=$(LC_TIME=tr_TR.UTF-8 date +"%A")
 
-Aşağıdaki formatta bir metin üret:
+claude --mcp-config ~/.config/claude/mcp_gdrive.json -p "
+Bugünün tarihi: $DATE ($DAYNAME).
+
+Aşağıdaki iki adımı sırasıyla tamamla:
+
+## ADIM 1 — İçerik Üret
+
+Sen bir iş İngilizcesi öğretmenisin. Bugün için rastgele bir iş dünyası deyimi veya ifadesi seç (daha önce kullanılmamış olsun). Aşağıdaki formatta bir metin üret:
 
 ---
 📌 GÜNÜN İŞ İNGİLİZCESİ DEYİMİ
-Tarih: [bugünün tarihi, örn. 8 Mayıs 2026, Cuma]
+Tarih: $DAYNAME, $DATE
 
 🔤 Deyim: [İngilizce deyim]
 
@@ -30,11 +36,13 @@ Tarih: [bugünün tarihi, örn. 8 Mayıs 2026, Cuma]
 💡 İpucu: [kısa pratik not]
 ---
 
-Yalnızca bu metni döndür, başka açıklama ekleme.
-")
+## ADIM 2 — Google Drive'a Kaydet
 
-# Drafts URL Scheme ile kaydet (#personal etiketi ile)
-ENCODED=$(python3 -c "import urllib.parse; print(urllib.parse.quote('''$OUTPUT'''))")
-open "drafts5://create?text=${ENCODED}&tag=personal&action=Save"
+Google Drive MCP araçlarını kullanarak:
+1. Önce 'İş İngilizcesi Deyimleri' adlı klasörü bul (search_files ile)
+2. Bu klasörün ID'sini al
+3. Oluşturduğun metni 'idiom_$DATE.md' adıyla bu klasöre kaydet (create_file ile)
+Kaydetme işlemi tamamlandığında kısa bir onay mesajı yaz.
+"
 
-echo "✅ Drafts'a kaydedildi: $(date)"
+echo "✅ Tamamlandı: $DATE"
