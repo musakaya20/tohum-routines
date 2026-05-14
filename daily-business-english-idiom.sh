@@ -33,8 +33,24 @@ Tarih: [bugünün tarihi, örn. 8 Mayıs 2026, Cuma]
 Yalnızca bu metni döndür, başka açıklama ekleme.
 ")
 
-# Drafts URL Scheme ile kaydet (#personal etiketi ile)
-ENCODED=$(python3 -c "import urllib.parse; print(urllib.parse.quote('''$OUTPUT'''))")
-open "drafts5://create?text=${ENCODED}&tag=personal&tag=ingilizce&action=Save"
+echo "$OUTPUT"
 
-echo "✅ Drafts'a kaydedildi: $(date)"
+# Drafts URL Scheme ile kaydet (personal + ingilizce etiketleri)
+ENCODED=$(python3 -c "import urllib.parse, sys; print(urllib.parse.quote(sys.argv[1]))" "$OUTPUT")
+DRAFTS_URL="drafts5://create?text=${ENCODED}&tag=personal&tag=ingilizce&action=Save"
+
+if command -v open &>/dev/null; then
+  # macOS
+  open "$DRAFTS_URL"
+  echo "✅ Drafts'a kaydedildi: $(date)"
+else
+  # Linux — dosyaya kaydet, URL'yi göster
+  SAVE_DIR="$(dirname "$0")/saved"
+  mkdir -p "$SAVE_DIR"
+  FILENAME="$SAVE_DIR/$(date +%Y-%m-%d)-business-english.txt"
+  echo "$OUTPUT" > "$FILENAME"
+  echo "📄 Dosyaya kaydedildi: $FILENAME"
+  echo ""
+  echo "📱 Drafts'a kaydetmek için Mac/iPhone'unda şu URL'yi aç:"
+  echo "$DRAFTS_URL"
+fi
