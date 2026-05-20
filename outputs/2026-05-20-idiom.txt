@@ -1,0 +1,19 @@
+📌 GÜNÜN İŞ İNGİLİZCESİ DEYİMİ
+Tarih: Wednesday, 20 May 2026
+
+🔤 Deyim: boil the ocean
+
+🇹🇷 Türkçe Karşılığı:
+Gereğinden fazla karmaşık veya büyük ölçekli bir göreve soyunmak; işi aşırı büyütmek. Aslında basit olan bir problemi çözülmez hâle getirecek şekilde yaklaşmak.
+
+📍 Kullanım Yerleri:
+- Proje kapsamı tartışmalarında, projenin sınırlarını çizerken
+- Strateji toplantılarında, odak kaybı uyarısı verirken
+- Ekip yönetiminde, gereksiz karmaşıklığı eleştirirken
+
+💬 Örnek Cümleler:
+1. We don't need to boil the ocean — let's fix the checkout bug first and ship. → Okyanusu kaynatmaya gerek yok; önce ödeme hatasını düzeltelim ve ürünü çıkaralım.
+2. The CEO warned the team not to boil the ocean by trying to redesign the entire platform in one sprint. → CEO, ekibi tek bir sprint'te tüm platformu yeniden tasarlamaya kalkışarak işi aşırı büyütmemeleri konusunda uyardı.
+3. "Are we solving the actual problem or boiling the ocean again?" the product manager asked. → Ürün yöneticisi sordu: "Gerçek sorunu mu çözüyoruz, yoksa yine işi aşırı mı büyütüyoruz?"
+
+💡 İpucu: Birisi önerilen çözümün çok kapsamlı olduğunu düşündüğünde bu deyimi kullanır. Toplantıda "Let's not boil the ocean" demek, "odaklanalım" anlamına gelir — kibarca ama net bir uyarıdır.
