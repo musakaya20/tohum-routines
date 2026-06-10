@@ -33,8 +33,8 @@ Tarih: [bugünün tarihi, örn. 8 Mayıs 2026, Cuma]
 Yalnızca bu metni döndür, başka açıklama ekleme.
 ")
 
-# Drafts URL Scheme ile kaydet (#personal etiketi ile)
-ENCODED=$(python3 -c "import urllib.parse; print(urllib.parse.quote('''$OUTPUT'''))")
-open "drafts5://create?text=${ENCODED}&tag=personal&action=Save"
+# Drafts URL Scheme ile kaydet (personal + ingilizce etiketleriyle)
+ENCODED=$(python3 -c "import urllib.parse, sys; print(urllib.parse.quote(sys.stdin.read()))" <<< "$OUTPUT")
+open "drafts5://create?text=${ENCODED}&tag=personal&tag=ingilizce&action=Save"
 
 echo "✅ Drafts'a kaydedildi: $(date)"
