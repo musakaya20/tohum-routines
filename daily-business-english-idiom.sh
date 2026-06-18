@@ -35,6 +35,6 @@ Yalnızca bu metni döndür, başka açıklama ekleme.
 
 # Drafts URL Scheme ile kaydet (#personal etiketi ile)
 ENCODED=$(python3 -c "import urllib.parse; print(urllib.parse.quote('''$OUTPUT'''))")
-open "drafts5://create?text=${ENCODED}&tag=personal&action=Save"
+open "drafts5://create?text=${ENCODED}&tag=personal&tag=ingilizce&action=Save"
 
 echo "✅ Drafts'a kaydedildi: $(date)"
