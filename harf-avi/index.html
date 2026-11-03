@@ -81,6 +81,7 @@ main { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 24px; al
 }
 .tile.filled { border-color: var(--ink); }
 .tile.ghost { color: var(--muted); border-style: dashed; }
+.tile.given { border-color: var(--firuze); color: var(--firuze); }
 .tile.c { background: var(--firuze); border-color: var(--firuze); color: var(--on-firuze); }
 .tile.p { background: var(--zerdecal); border-color: var(--zerdecal); color: var(--on-zerdecal); }
 .tile.p::after { content: ""; position: absolute; inset: 5px; border: 2px dotted currentColor; border-radius: 5px; opacity: 0.55; }
@@ -148,7 +149,7 @@ aside { display: grid; gap: 16px; min-width: 0; }
   <header>
     <div>
       <h1>Harf Avı<span class="dot">.</span></h1>
-      <p class="tag">Gizli kelimeyi altı denemede bul. Seri yaptıkça puanın katlanır.</p>
+      <p class="tag">İlk harf senden, gerisi bizden: gizli kelimeyi altı denemede bul. Seri yaptıkça puanın katlanır.</p>
     </div>
     <div class="controls">
       <div>
@@ -202,7 +203,7 @@ aside { display: grid; gap: 16px; min-width: 0; }
           <div><span class="swatch a" aria-hidden="true">A</span> Harf kelimede yok</div>
         </div>
         <ol class="rules">
-          <li>Kelimeyi yaz, <b>Gir</b>'e bas. Klavyeden de yazabilirsin.</li>
+          <li>İlk harf her satırda hazır gelir. Kalan harfleri yaz, <b>Gir</b>'e bas. Klavyeden de yazabilirsin.</li>
           <li>Kazanınca puan: harf başına 20, kalan her deneme için 30, süreli oyunda kalan her saniye için 1.</li>
           <li>Art arda bildiğin her tur puanı %25 artırır (en çok 2 kat).</li>
           <li>Takılırsan <b>Harf aç</b> bir harfi yerinde gösterir. Turda en çok 2 kez, her biri 40 puan.</li>
@@ -260,7 +261,7 @@ ARKADAŞ GÖNÜLLÜ OYUNCAK ÖĞRENCİ ÇEKİRGE KELEBEK TİYATRO PENCERE PATATE
   function startRound() {
     state.round += 1;
     state.answer = pickWord();
-    state.guesses = []; state.current = []; state.hints = [];
+    state.guesses = []; state.current = [[...state.answer][0]]; state.hints = [];
     state.status = "playing"; state.timeLeft = ROUND_TIME; state.last = null;
     revealRow = -1;
     setMsg("");
@@ -276,7 +277,7 @@ ARKADAŞ GÖNÜLLÜ OYUNCAK ÖĞRENCİ ÇEKİRGE KELEBEK TİYATRO PENCERE PATATE
     return res;
   }
   function knownPositions() {
-    const known = new Set(state.hints);
+    const known = new Set([0, ...state.hints]);
     state.guesses.forEach(g => g.res.forEach((r, i) => { if (r === "c") known.add(i); }));
     return known;
   }
@@ -288,7 +289,7 @@ ARKADAŞ GÖNÜLLÜ OYUNCAK ÖĞRENCİ ÇEKİRGE KELEBEK TİYATRO PENCERE PATATE
     if (state.current.length < state.len) { state.current.push(ch); render(); }
   }
   function back() {
-    if (state.status !== "playing") return;
+    if (state.status !== "playing" || state.current.length <= 1) return;
     state.current.pop(); render();
   }
   function shake() {
@@ -303,7 +304,7 @@ ARKADAŞ GÖNÜLLÜ OYUNCAK ÖĞRENCİ ÇEKİRGE KELEBEK TİYATRO PENCERE PATATE
     if (state.dict && !WORDSET.has(word)) { setMsg("Bu kelime oyunun listesinde yok. Başka bir kelime dene.", true); shake(); return; }
     const res = evaluate(word, state.answer);
     state.guesses.push({ word, res });
-    state.current = [];
+    state.current = [[...state.answer][0]];
     revealRow = state.guesses.length - 1;
     setMsg("");
     if (word === state.answer) finish(true);
@@ -406,7 +407,7 @@ ARKADAŞ GÖNÜLLÜ OYUNCAK ÖĞRENCİ ÇEKİRGE KELEBEK TİYATRO PENCERE PATATE
         const t = document.createElement("div");
         t.className = "tile";
         if (g) { t.classList.add(g.res[i]); t.textContent = letters[i]; t.setAttribute("aria-label", `${letters[i]}: ${labels[g.res[i]]}`); }
-        else if (letters[i]) { t.classList.add("filled"); t.textContent = letters[i]; }
+        else if (letters[i]) { t.classList.add(isCurrent && i === 0 ? "given" : "filled"); t.textContent = letters[i]; if (isCurrent && i === 0) t.setAttribute("aria-label", `İlk harf: ${letters[i]}`); }
         else if (isCurrent && hintMap[i]) { t.classList.add("ghost"); t.textContent = hintMap[i]; t.setAttribute("aria-label", `İpucu: ${hintMap[i]}`); }
         row.appendChild(t);
       }
